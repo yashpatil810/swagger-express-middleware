@@ -66,9 +66,11 @@
     "ono": "^4.0.11",
     "swagger-methods": "^1.0.8",
     "swagger-parser": "^6.0.3",
+    "swagger-ui-express": "^4.0.7",
     "tmp": "0.0.33",
     "tv4": "^1.2.5",
-    "type-is": "^1.6.8"
+    "type-is": "^1.6.8",
+    "yamljs": "^0.3.0"
   },
   "peerDependencies": {
     "express": "4.x"

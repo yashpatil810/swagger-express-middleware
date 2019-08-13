@@ -8,12 +8,19 @@
 const createMiddleware = require('swagger-express-middleware');
 const path = require('path');
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
 
 // Create an Express app
 const app = express();
 
 // Initialize Swagger Express Middleware with our Swagger file
-let swaggerFile = path.join(__dirname, 'PetStore.yaml');
+let swaggerFile = path.join(__dirname, 'note.yaml');
+
+// Generate Swagger UI
+const swaggerDocument = YAML.load(swaggerFile);
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+
 createMiddleware(swaggerFile, app, (err, middleware) => {
 
   // Add all the Swagger Express Middleware, or just the ones you need.
@@ -28,7 +35,7 @@ createMiddleware(swaggerFile, app, (err, middleware) => {
   );
 
   // Start the app
-  app.listen(8000, () => {
-    console.log('The Swagger Pet Store is now running at http://localhost:8000');
+  app.listen(5000, () => {
+    console.log('The Swagger Pet Store is now running at http://localhost:5000');
   });
 });
