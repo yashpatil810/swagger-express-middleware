@@ -35,6 +35,13 @@ definitions:
         type: object
         $ref: "#/definitions/note"
 
+  note201:
+    type: object
+    properties:
+      note:
+        type: object
+        $ref: "#/definitions/note"
+
   notes200:
     type: object
     properties:
@@ -92,7 +99,7 @@ paths:
         201:
           description: Returns the newly-added note
           schema:
-            $ref: "#/definitions/note200"
+            $ref: "#/definitions/note201"
           headers:
             Location:
               type: string
