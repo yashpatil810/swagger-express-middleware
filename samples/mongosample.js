@@ -10,9 +10,9 @@ const express = require("express");
 const swagger = require("swagger-express-middleware");
 const Middleware = swagger.Middleware;
 const MemoryDataStore = swagger.MemoryDataStore;
-const Resource = swagger.Resource;
-const mongoose = require("mongoose");
-const mongooseHelper = require("../lib/helpers/mongoose");
+// const Resource = swagger.Resource;
+// const mongoose = require("mongoose");
+// const MongoDataStore = require("../lib/mongo/mongo-data-store");
 
 let app = express();
 let middleware = new Middleware(app);
@@ -31,33 +31,6 @@ app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 middleware.init(swaggerFile, err => {
   // Create a custom data store with some initial mock data
   let myDB = new MemoryDataStore();
-  myDB.save(
-    new Resource("/pets/Lassie", {
-      name: "Lassie",
-      type: "dog",
-      tags: ["brown", "white"]
-    }),
-    new Resource("/pets/Clifford", {
-      name: "Clifford",
-      type: "dog",
-      tags: ["red", "big"]
-    }),
-    new Resource("/pets/Garfield", {
-      name: "Garfield",
-      type: "cat",
-      tags: ["orange"]
-    }),
-    new Resource("/pets/Snoopy", {
-      name: "Snoopy",
-      type: "dog",
-      tags: ["black", "white"]
-    }),
-    new Resource("/pets/Hello%20Kitty", {
-      name: "Hello Kitty",
-      type: "cat",
-      tags: ["white"]
-    })
-  );
 
   // Enable Express' case-sensitive and strict options
   // (so "/pets/Fido", "/pets/fido", and "/pets/fido/" are all different)
@@ -133,6 +106,11 @@ middleware.init(swaggerFile, err => {
 
   // The mock middleware will use our custom data store,
   // which we already pre-populated with mock data
+
+  const config = {
+    url: "mongodb://localhost:27017/swagger",
+    dialect: "mongo"
+  };
   app.use(middleware.mock(myDB));
 
   // Add a custom error handler that returns errors as HTML
