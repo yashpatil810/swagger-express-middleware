@@ -3,8 +3,8 @@ info:
   version: 1.0.0
   title: NodeJS Boilerplate
   description: A sample API that demonstrates Swagger-Express-Middleware features
-host: "localhost:8000"
-# basepath: "/"
+host: "localhost:5000"
+basepath: "/"
 consumes:
   - application/json
 produces:
@@ -38,10 +38,13 @@ definitions:
   notes200:
     type: object
     properties:
-      notes:
-        type: array
-        items:
-          $ref: "#/definitions/note"
+      data:
+        type: object
+        properties:
+          notes:
+            type: array
+            items:
+              $ref: "#/definitions/note"
 
 parameters:
   noteName:
