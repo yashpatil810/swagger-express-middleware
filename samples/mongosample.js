@@ -9,10 +9,8 @@ const path = require("path");
 const express = require("express");
 const swagger = require("swagger-express-middleware");
 const Middleware = swagger.Middleware;
-const MemoryDataStore = swagger.MemoryDataStore;
-// const Resource = swagger.Resource;
-// const mongoose = require("mongoose");
-// const MongoDataStore = require("../lib/mongo/mongo-data-store");
+const MongoDataStore = require("../lib/mongo/mongo-data-store");
+const Resource = swagger.Resource;
 
 let app = express();
 let middleware = new Middleware(app);
@@ -30,7 +28,7 @@ app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // let swaggerFile = path.join(__dirname, "PetStore.yaml");
 middleware.init(swaggerFile, err => {
   // Create a custom data store with some initial mock data
-  let myDB = new MemoryDataStore();
+  let myDB = new MongoDataStore();
 
   // Enable Express' case-sensitive and strict options
   // (so "/pets/Fido", "/pets/fido", and "/pets/fido/" are all different)
@@ -78,39 +76,8 @@ middleware.init(swaggerFile, err => {
   // These two middleware don't have any options (yet)
   app.use(middleware.CORS(), middleware.validateRequest());
 
-  // Add custom middleware
-  app.patch("/pets/:petName", (req, res, next) => {
-    if (req.body.name !== req.params.petName) {
-      // The pet's name has changed, so change its URL.
-      // Start by deleting the old resource
-      myDB.delete(new Resource(req.path), (err, pet) => {
-        if (pet) {
-          // Merge the new data with the old data
-          pet.merge(req.body);
-        }
-        else {
-          pet = req.body;
-        }
-
-        // Save the pet with the new URL
-        myDB.save(new Resource("/pets", req.body.name, pet), (err, pet) => {
-          // Send the response
-          res.json(pet.data);
-        });
-      });
-    }
-    else {
-      next();
-    }
-  });
-
   // The mock middleware will use our custom data store,
   // which we already pre-populated with mock data
-
-  const config = {
-    url: "mongodb://localhost:27017/swagger",
-    dialect: "mongo"
-  };
   app.use(middleware.mock(myDB));
 
   // Add a custom error handler that returns errors as HTML

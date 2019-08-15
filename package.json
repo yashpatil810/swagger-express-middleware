@@ -62,7 +62,6 @@
     "debug": "^4.1.1",
     "lodash": "^4.17.11",
     "mkdirp": "^0.5.1",
-    "mongodb": "^3.3.0",
     "multer": "^0.1.8",
     "ono": "^4.0.11",
     "swagger-methods": "^1.0.8",

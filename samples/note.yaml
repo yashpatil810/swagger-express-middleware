@@ -4,7 +4,7 @@ info:
   title: NodeJS Boilerplate
   description: A sample API that demonstrates Swagger-Express-Middleware features
 host: "localhost:8000"
-# basepath: "/"
+basepath: "/"
 consumes:
   - application/json
 produces:
@@ -31,24 +31,23 @@ definitions:
   note200:
     type: object
     properties:
-      note:
+      data:
         type: object
-        $ref: "#/definitions/note"
-
-  note201:
-    type: object
-    properties:
-      note:
-        type: object
-        $ref: "#/definitions/note"
+        properties:
+          note:
+            type: object
+            $ref: "#/definitions/note"
 
   notes200:
     type: object
     properties:
-      notes:
-        type: array
-        items:
-          $ref: "#/definitions/note"
+      data:
+        type: object
+        properties:
+          notes:
+            type: array
+            items:
+              $ref: "#/definitions/note"
 
 parameters:
   noteName:
@@ -65,7 +64,7 @@ paths:
       description: This will return a list of notes.
       operationId: getNotes
       responses:
-        default:
+        200:
           description: Returns the matching notes
           schema:
             $ref: "#/definitions/notes200"
@@ -79,7 +78,7 @@ paths:
       description: Deletes all notes, optionally filtered by one or more criteria
       operationId: deletenotes
       responses:
-        default:
+        200:
           description: Returns the notes that were deleted
           schema:
             $ref: "#/definitions/notes200"
@@ -96,10 +95,10 @@ paths:
           schema:
             $ref: "#/definitions/note"
       responses:
-        201:
+        200:
           description: Returns the newly-added note
           schema:
-            $ref: "#/definitions/note201"
+            $ref: "#/definitions/note200"
           headers:
             Location:
               type: string
@@ -114,7 +113,7 @@ paths:
       description: Returns a note by name
       operationId: findNoteByName
       responses:
-        default:
+        200:
           description: Returns the note data
           schema:
             $ref: "#/definitions/note200"
@@ -128,7 +127,7 @@ paths:
       description: Deletes a single note based on the name supplied
       operationId: deleteNote
       responses:
-        default:
+        200:
           description: Returns the note that was deleted
           schema:
             $ref: "#/definitions/note200"
@@ -144,7 +143,7 @@ paths:
           schema:
             $ref: "#/definitions/note"
       responses:
-        default:
+        200:
           description: Returns the updated note data
           schema:
             $ref: "#/definitions/note200"
@@ -154,7 +153,7 @@ paths:
       produces:
         - text/html
       responses:
-        default:
+        200:
           description: The Swagger note Store homepage :)
           schema:
             type: file
