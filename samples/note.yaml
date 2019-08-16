@@ -15,6 +15,8 @@ definitions:
     required:
       - name
     properties:
+      _id:
+        type: string
       name:
         type: string
       description:
@@ -68,10 +70,6 @@ paths:
           description: Returns the matching notes
           schema:
             $ref: "#/definitions/notes200"
-          headers:
-            last-modified:
-              type: string
-              description: The date/time that a note was last modified
 
     delete:
       tags: ['Notes']
@@ -117,10 +115,18 @@ paths:
           description: Returns the note data
           schema:
             $ref: "#/definitions/note200"
-          headers:
-            last-modified:
-              type: string
-              description: The date/time that the note was last modified
+         
+        400:
+          description: The specified user ID is invalid (e.g. not a number).
+        404:
+          description: A user with the specified ID was not found.
+        500:
+          description: Internal server error
+        201:
+          description: 201
+        default:
+          description: Unexpected error
+
 
     delete:
       tags: ['Notes']
