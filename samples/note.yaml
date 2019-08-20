@@ -15,6 +15,8 @@ definitions:
     required:
       - name
     properties:
+      id:
+        type: integer
       name:
         type: string
       description:
@@ -31,23 +33,17 @@ definitions:
   note200:
     type: object
     properties:
-      data:
+      note:
         type: object
-        properties:
-          note:
-            type: object
-            $ref: "#/definitions/note"
+        $ref: '#/definitions/note'
 
   notes200:
     type: object
     properties:
-      data:
-        type: object
-        properties:
-          notes:
-            type: array
-            items:
-              $ref: "#/definitions/note"
+      notes:
+        type: array
+        items:
+          $ref: "#/definitions/note"
 
 parameters:
   noteName:
